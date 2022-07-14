@@ -3,7 +3,10 @@ var btnAdd = document.getElementById("btnAdd");
 var tBody = document.getElementById("tBody");
 var totalList = document.getElementById("totalList");
 var totalCheck = document.getElementById("totalCheck");
-var totalCheckCout = '';
+var inputArtist = document.getElementById("inputArtist");
+var inputSong = document.getElementById("inputSong");
+var totalCheckCout = "";
+var validate = false;
 
 let listPlay = [
   {
@@ -20,7 +23,7 @@ let listPlay = [
     enable: false,
     delete: false,
   },
-  
+
   {
     id: 3,
     artist: "Greta van fleet",
@@ -32,18 +35,30 @@ let listPlay = [
 ];
 
 btnAdd.addEventListener("click", function () {
+  if (validator() === true) {
+    var newSong = {
+      id: listPlay.length + 1,
+      artist: inputArtist.value,
+      song: inputSong.value,
+      enable: false,
+      delete: false,
+    };
+    listPlay.push(newSong);
+  }
+
+  refreshList();
   totalList.innerHTML = listPlay.length;
 });
 
 //Inicializar variables
-InitList();
+refreshList();
 totalList.innerHTML = listPlay.length;
 totalCheckCout = 0;
 totalCheck.innerHTML = totalCheckCout;
 initCheck();
 
 //Funciones
-function InitList() {
+function refreshList() {
   tBody.innerHTML = ``;
   listPlay.forEach(
     (x) =>
@@ -59,54 +74,74 @@ function InitList() {
             <td>` +
         x.song +
         `</td>
-            <td><center><input type="checkbox" id="`+'check'+
-            x.id +
+            <td><center><input type="checkbox" id="` +
+        "check" +
+        x.id +
         `" class="inputCheckbox"></center></td>
-            <td><center><i class="bi bi-x-square-fill"></i></center></td>
+            <td><center><i class="bi bi-x-square-fill" onclick="deletedSong(this)"></i></center></td>
           </tr>`)
   );
+  totalList.innerHTML = listPlay.length;
 }
 
 function initCheck() {
-    totalCheckCout=0;
-    cont = 0;
-   listPlay.forEach(
-    (x) => checked(x)
-   );
-   totalCheck.innerHTML = totalCheckCout;
+  totalCheckCout = 0;
+  cont = 0;
+  listPlay.forEach((x) => checked(x));
+  totalCheck.innerHTML = totalCheckCout;
 }
 
-function checked(td){
-    cont++;
-    var idCheck = 'check'+cont;
-    var inputCheck = document.getElementById(idCheck);
-    if(td.enable === true){
-        inputCheck.checked = true;
-    }else{
-        inputCheck.checked = false;
-    }
-   }
+function checked(td) {
+  cont++;
+  var idCheck = "check" + cont;
+  var inputCheck = document.getElementById(idCheck);
+  if (td.enable === true) {
+    inputCheck.checked = true;
+  } else {
+    inputCheck.checked = false;
+  }
+}
 
-   tBody.addEventListener("change", function(){
-    refreshCheck();
+tBody.addEventListener("change", function () {
+  refreshCheck();
+  console.log(totalCheckCout);
+});
+
+function refreshCheck() {
+  totalCheckCout = 0;
+  cont = 0;
+  listPlay.forEach((x) => countCheckSong());
+  totalCheck.innerHTML = totalCheckCout;
+}
+
+function countCheckSong() {
+  cont++;
+  var idCheck = "check" + cont;
+  var inputCheck = document.getElementById(idCheck);
+  if (inputCheck.checked === true) {
+    totalCheckCout++;
     console.log(totalCheckCout);
-   })
-
-function refreshCheck(){
-    totalCheckCout=0;
-    cont = 0;
-    listPlay.forEach(
-        (x) => countCheckSong()
-       );
-       totalCheck.innerHTML = totalCheckCout;
+  }
 }
 
-function countCheckSong(){
-    cont++;
-    var idCheck = 'check'+cont;
-    var inputCheck = document.getElementById(idCheck);
-    if(inputCheck.checked === true){
-        totalCheckCout++;
-        console.log(totalCheckCout);
-    }
+function validator() {
+  if (inputArtist.value === "") {
+    validate = false;
+    swal("Oops!", "Missing to add the name of the artist!", "error");
+  } else if (inputSong.value === "") {
+    validate = false;
+    swal("Oops!", "Missing to add the name of the song!", "error");
+  } else {
+    validate = true;
+  }
+  return validate;
+}
+
+function deletedSong(songSelected) {
+  var idSongSelected =
+    songSelected.parentElement.parentNode.parentNode.children[0].innerHTML;
+  var indexSongDelete = listPlay.findIndex((song) => song.id == idSongSelected);
+  listPlay.splice(indexSongDelete, 1);
+  refreshCheck();
+  refreshList();
 }
