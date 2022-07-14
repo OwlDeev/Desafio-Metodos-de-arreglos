@@ -32,9 +32,7 @@ let listPlay = [
 ];
 
 btnAdd.addEventListener("click", function () {
-    InitList();
   totalList.innerHTML = listPlay.length;
-  SongCheck();
 });
 
 //Inicializar variables
@@ -63,7 +61,7 @@ function InitList() {
         `</td>
             <td><center><input type="checkbox" id="`+'check'+
             x.id +
-        `"></center></td>
+        `" class="inputCheckbox"></center></td>
             <td><center><i class="bi bi-x-square-fill"></i></center></td>
           </tr>`)
   );

@@ -79,3 +79,12 @@ main{
     height:300px;
     width:100%;
 }
+
+.bi:hover{
+    color:rgb(255, 123,0);
+}
+
+.inputCheckbox{
+    width: 30px;
+    height: 30px;
+}
