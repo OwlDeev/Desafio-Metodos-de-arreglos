@@ -47,12 +47,12 @@ btnAdd.addEventListener("click", function () {
     listPlay.push(newSong);
     countStep++;
     totalCountStep.innerHTML = countStep;
+    totalList.innerHTML = listPlay.length;
+    cleanVariables();
+    refreshList();
+    refreshCheck();
     swal("New song add", "Your song was added to the list!", "success");
   }
-
-  refreshList();
-  totalList.innerHTML = listPlay.length;
-  cleanVariables();
 });
 
 //Inicializar variables
