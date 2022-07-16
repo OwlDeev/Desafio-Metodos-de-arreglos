@@ -16,25 +16,22 @@ let listPlay = [
     id: 1,
     artist: "Kate Bush",
     song: "running up that hill",
-    enable: false,
-    delete: false,
+    enable: false
   },
   {
     id: 2,
     artist: "Dua Lipa",
     song: "Levitating",
-    enable: false,
-    delete: false,
+    enable: false
   },
 
   {
     id: 3,
     artist: "Greta van fleet",
     song: "Safari Song",
-    enable: false,
-    delete: false,
+    enable: false
   },
-  { id: 4, artist: "Mgmt", song: "Youth", enable: false, delete: false },
+  { id: 4, artist: "Mgmt", song: "Youth", enable: false},
 ];
 
 //FUNCTION ADD
