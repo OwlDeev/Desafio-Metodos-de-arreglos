@@ -88,3 +88,18 @@ main{
     width: 30px;
     height: 30px;
 }
+
+#inputArtist{
+    margin-right: 30px;
+}
+
+#inputSong{
+    margin-right: 30px;
+}
+
+#btnAdd{
+    background-color: rgb(255, 123, 0);
+    color:white;
+    width:100px;
+    border-radius: 20px;
+}

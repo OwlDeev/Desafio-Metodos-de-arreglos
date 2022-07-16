@@ -34,6 +34,7 @@ let listPlay = [
   { id: 4, artist: "Mgmt", song: "Youth", enable: false, delete: false },
 ];
 
+//FUNCTION ADD
 btnAdd.addEventListener("click", function () {
   if (validator() === true) {
     var newSong = {
@@ -48,6 +49,8 @@ btnAdd.addEventListener("click", function () {
 
   refreshList();
   totalList.innerHTML = listPlay.length;
+  cleanVariables();
+  swal("New song add", "Your song was added to the list!", "success");
 });
 
 //Inicializar variables
@@ -57,7 +60,7 @@ totalCheckCout = 0;
 totalCheck.innerHTML = totalCheckCout;
 initCheck();
 
-//Funciones
+//REFRESH
 function refreshList() {
   tBody.innerHTML = ``;
   listPlay.forEach(
@@ -118,12 +121,13 @@ function countCheckSong() {
   cont++;
   var idCheck = "check" + cont;
   var inputCheck = document.getElementById(idCheck);
-  if (inputCheck.checked === true) {
+  if (inputCheck != null && inputCheck.checked === true) {
     totalCheckCout++;
     console.log(totalCheckCout);
   }
 }
 
+//VALIDATOR
 function validator() {
   if (inputArtist.value === "") {
     validate = false;
@@ -137,11 +141,17 @@ function validator() {
   return validate;
 }
 
+//FUNCTION DELETE
 function deletedSong(songSelected) {
   var idSongSelected =
     songSelected.parentElement.parentNode.parentNode.children[0].innerHTML;
   var indexSongDelete = listPlay.findIndex((song) => song.id == idSongSelected);
   listPlay.splice(indexSongDelete, 1);
-  refreshCheck();
   refreshList();
+  refreshCheck();
+}
+
+function cleanVariables(){
+  inputArtist.value = '';
+  inputSong.value = '';
 }
