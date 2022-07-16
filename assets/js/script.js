@@ -7,6 +7,7 @@ var inputArtist = document.getElementById("inputArtist");
 var inputSong = document.getElementById("inputSong");
 var totalCheckCout = "";
 var validate = false;
+var idSongSelected;
 
 let listPlay = [
   {
@@ -45,15 +46,16 @@ btnAdd.addEventListener("click", function () {
       delete: false,
     };
     listPlay.push(newSong);
+    swal("New song add", "Your song was added to the list!", "success");
   }
 
   refreshList();
   totalList.innerHTML = listPlay.length;
   cleanVariables();
-  swal("New song add", "Your song was added to the list!", "success");
 });
 
 //Inicializar variables
+idSongSelected = 0;
 refreshList();
 totalList.innerHTML = listPlay.length;
 totalCheckCout = 0;
@@ -77,10 +79,10 @@ function refreshList() {
             <td>` +
         x.song +
         `</td>
-            <td><center><input type="checkbox" id="` +
+            <td><input type="checkbox" onchange="checkedSong(this)" id="` +
         "check" +
         x.id +
-        `" class="inputCheckbox"></center></td>
+        `" class="inputCheckbox"></td>
             <td><center><i class="bi bi-x-square-fill" onclick="deletedSong(this)"></i></center></td>
           </tr>`)
   );
@@ -95,13 +97,12 @@ function initCheck() {
 }
 
 function checked(td) {
-  cont++;
-  var idCheck = "check" + cont;
-  var inputCheck = document.getElementById(idCheck);
+  var idInput = 'check'+td.id;
+  var inputCheckbox = document.getElementById(idInput);
   if (td.enable === true) {
-    inputCheck.checked = true;
+    inputCheckbox.checked = true;
   } else {
-    inputCheck.checked = false;
+    inputCheckbox.checked = false;
   }
 }
 
@@ -113,17 +114,17 @@ tBody.addEventListener("change", function () {
 function refreshCheck() {
   totalCheckCout = 0;
   cont = 0;
-  listPlay.forEach((x) => countCheckSong());
+  listPlay.forEach((x) => countCheckSong(x));
   totalCheck.innerHTML = totalCheckCout;
 }
 
-function countCheckSong() {
-  cont++;
-  var idCheck = "check" + cont;
-  var inputCheck = document.getElementById(idCheck);
-  if (inputCheck != null && inputCheck.checked === true) {
+function countCheckSong(song) {
+  var idInput = 'check'+song.id;
+  var inputCheckbox = document.getElementById(idInput);
+  var enableInput = song.enable;
+  if (enableInput != null && enableInput === true) {
+    inputCheckbox.checked = true;
     totalCheckCout++;
-    console.log(totalCheckCout);
   }
 }
 
@@ -151,7 +152,26 @@ function deletedSong(songSelected) {
   refreshCheck();
 }
 
+//FUNCTION CHECKED
+//FUNCTION DELETE
+function checkedSong(songSelected) {
+  idSongSelected = songSelected.parentElement.parentNode.children[0].innerHTML;
+  listPlay.forEach((x) => checkListPlay(x));
+  refreshCheck();
+}
+
 function cleanVariables(){
   inputArtist.value = '';
   inputSong.value = '';
 }
+
+function checkListPlay(song){
+  if(song.id === Number(idSongSelected)){
+    if(song.enable === true){
+      song.enable = false;
+    }else{
+      song.enable = true;
+    }
+  }
+}
+//si se agrega uno nuevo con los elementos chequeados se desmarcan pero el marcador queda con el conteo
