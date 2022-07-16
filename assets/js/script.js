@@ -8,6 +8,8 @@ var inputSong = document.getElementById("inputSong");
 var totalCheckCout = "";
 var validate = false;
 var idSongSelected;
+var totalCountStep = document.getElementById("totalCountStep");
+var countStep = 0;
 
 let listPlay = [
   {
@@ -46,6 +48,8 @@ btnAdd.addEventListener("click", function () {
       delete: false,
     };
     listPlay.push(newSong);
+    countStep++;
+    totalCountStep.innerHTML = countStep;
     swal("New song add", "Your song was added to the list!", "success");
   }
 
@@ -61,6 +65,7 @@ totalList.innerHTML = listPlay.length;
 totalCheckCout = 0;
 totalCheck.innerHTML = totalCheckCout;
 initCheck();
+totalCountStep.innerHTML = countStep;
 
 //REFRESH
 function refreshList() {
@@ -147,13 +152,14 @@ function deletedSong(songSelected) {
   var idSongSelected =
     songSelected.parentElement.parentNode.parentNode.children[0].innerHTML;
   var indexSongDelete = listPlay.findIndex((song) => song.id == idSongSelected);
+  countStep++;
+  totalCountStep.innerHTML = String(countStep);
   listPlay.splice(indexSongDelete, 1);
   refreshList();
   refreshCheck();
 }
 
 //FUNCTION CHECKED
-//FUNCTION DELETE
 function checkedSong(songSelected) {
   idSongSelected = songSelected.parentElement.parentNode.children[0].innerHTML;
   listPlay.forEach((x) => checkListPlay(x));
@@ -174,4 +180,5 @@ function checkListPlay(song){
     }
   }
 }
+
 //si se agrega uno nuevo con los elementos chequeados se desmarcan pero el marcador queda con el conteo
